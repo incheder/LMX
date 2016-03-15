@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageViewLeaderboardItem"
+        android:layout_width="@dimen/image_width_leaderboard_item"
+        android:layout_height="@dimen/image_height_leaderboard_item"
+        android:contentDescription="@string/content_description_image_leaderboard_item"
+        />
+
+    <TextView
+        android:layout_toRightOf="@+id/imageViewLeaderboardItem"
+        android:layout_toEndOf="@+id/imageViewLeaderboardItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="item"/>
+
+</RelativeLayout>

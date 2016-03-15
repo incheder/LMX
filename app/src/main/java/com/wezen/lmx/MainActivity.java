@@ -19,7 +19,10 @@ import android.view.ViewGroup;
   
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import com.wezen.lmx.leaderboard.LeaderboardFragment;
+import com.wezen.lmx.model.Team;
+
+public class MainActivity extends AppCompatActivity implements LeaderboardFragment.OnListFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -88,8 +91,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    
-  
+    @Override
+    public void onListFragmentInteraction(Team item) {
+
+    }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -105,7 +111,8 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            //return PlaceholderFragment.newInstance(position + 1);
+            return LeaderboardFragment.newInstance(1);
         }
 
         @Override

@@ -7,4 +7,6 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="image_width_leaderboard_item">60dp</dimen>
     <dimen name="image_height_leaderboard_item">60dp</dimen>
+    <dimen name="left_padding_two_line_list">16dp</dimen>
+    <dimen name="inner_left_padding_two_line_list">16dp</dimen>
 </resources>

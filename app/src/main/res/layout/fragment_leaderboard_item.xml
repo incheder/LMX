@@ -1,20 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/left_padding_two_line_list"
+    android:paddingStart="@dimen/left_padding_two_line_list"
+    android:paddingRight="@dimen/left_padding_two_line_list"
+    android:paddingEnd="@dimen/left_padding_two_line_list"
+    >
+
 
     <ImageView
         android:id="@+id/imageViewLeaderboardItem"
         android:layout_width="@dimen/image_width_leaderboard_item"
         android:layout_height="@dimen/image_height_leaderboard_item"
         android:contentDescription="@string/content_description_image_leaderboard_item"
+        android:src="@mipmap/ic_launcher"
         />
 
-    <TextView
-        android:layout_toRightOf="@+id/imageViewLeaderboardItem"
-        android:layout_toEndOf="@+id/imageViewLeaderboardItem"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="item"/>
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/imageViewLeaderboardItem"
+        android:layout_toEndOf="@+id/imageViewLeaderboardItem"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/inner_left_padding_two_line_list"
+        android:layout_marginStart="@dimen/inner_left_padding_two_line_list"
+        >
+
+        <TextView
+            android:id="@+id/textViewLeaderboardItemPosition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="1"/>
+
+        <TextView
+            android:id="@+id/textViewLeaderboardItemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItemSmall"
+            android:text="name"/>
+
+    </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/textViewLeaderboardItemPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:text="21 pts"/>
+
+
 
 </RelativeLayout>

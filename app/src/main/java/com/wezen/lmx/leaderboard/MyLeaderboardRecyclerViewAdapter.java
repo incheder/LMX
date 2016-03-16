@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,9 @@ import com.wezen.lmx.R;
 import com.wezen.lmx.model.Team;
 
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Team} and makes a call to the
@@ -91,19 +95,16 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final ImageView mImageView;
+        @Bind(R.id.imageViewLeaderboardItem)
+        ImageView mImageView;
 
-        //public final TextView mIdView;
-        //public final TextView mContentView;
+        public final View mView;
         public Team mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mImageView = (ImageView)view.findViewById(R.id.imageViewLeaderboardItem);
-           // mIdView = (TextView) view.findViewById(R.id.id);
-            //mContentView = (TextView) view.findViewById(R.id.content);
+            ButterKnife.bind(this,view);
         }
 
         @Override

@@ -1,6 +1,8 @@
 package com.wezen.lmx.leaderboard;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -33,6 +35,7 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
     private final List<Team> mValues;
     private final OnListFragmentInteractionListener mListener;
 
+
     public MyLeaderboardRecyclerViewAdapter(List<Team> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
@@ -55,26 +58,9 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
                 .load(holder.mItem.getImageUrl())
                 //.fit()
                 //.centerCrop()
-                //.placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.mipmap.ic_launcher)
                 //.into(holder.mImageView);
-                .into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(holder.mImageView.getContext().getResources(),bitmap);
-                        roundedBitmapDrawable.setCornerRadius(Math.max(bitmap.getWidth(), bitmap.getHeight()) / 2.0f);
-                        holder.mImageView.setImageDrawable(roundedBitmapDrawable);
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                });
+                .into(holder.myTarget);
 
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -94,23 +80,64 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
         return mValues.size();
     }
 
+    private static class MyTarget implements Target {
+        private final ViewHolder holder;
+
+        public MyTarget(ViewHolder holder) {
+            this.holder = holder;
+        }
+
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            loadRoundedImage(bitmap);
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+            if(placeHolderDrawable != null){
+                Bitmap bitmap = ((BitmapDrawable)placeHolderDrawable).getBitmap();
+                loadRoundedImage(bitmap);
+
+            }
+        }
+
+        private void loadRoundedImage(Bitmap bitmap){
+            RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(holder.mImageView.getContext().getResources(),bitmap);
+            roundedBitmapDrawable.setCornerRadius(Math.max(bitmap.getWidth(), bitmap.getHeight()) / 2.0f);
+            holder.mImageView.setImageDrawable(roundedBitmapDrawable);
+        }
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.imageViewLeaderboardItem)
         ImageView mImageView;
+        @Bind(R.id.textViewLeaderboardItemName)
+        TextView mTextViewName;
+        @Bind(R.id.textViewLeaderboardItemPosition)
+        TextView mTextViewPosition;
+        @Bind(R.id.textViewLeaderboardItemPoints)
+        TextView mTextViewPoints;
 
         public final View mView;
         public Team mItem;
+        public MyTarget myTarget;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             ButterKnife.bind(this,view);
+            myTarget = new MyTarget(this);
         }
 
         @Override
         public String toString() {
-            return super.toString();
-            //return super.toString() + " '" + mContentView.getText() + "'";
+            //return super.toString();
+            return super.toString() + " '" + mTextViewName.getText() + "'";
         }
     }
 }

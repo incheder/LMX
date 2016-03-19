@@ -122,7 +122,7 @@ public class LeaderboardFragment extends Fragment {
 
     private void getLeaderBoard(){
         String dummyurl = "https://quizup-questions.s3.amazonaws.com/topic-icons/david-bowie-2015-04-24T16:49:11.575Z";
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 15; i++) {
             Team team = new Team();
             team.setImageUrl(dummyurl);
             teamsList.add(team);

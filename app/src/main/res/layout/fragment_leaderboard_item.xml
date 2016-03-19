@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/two_lines_list_item_height"
     android:paddingLeft="@dimen/left_padding_two_line_list"
     android:paddingStart="@dimen/left_padding_two_line_list"
     android:paddingRight="@dimen/left_padding_two_line_list"
     android:paddingEnd="@dimen/left_padding_two_line_list"
+    android:paddingTop="@dimen/top_padding_two_line_list"
     >
 
 
@@ -14,7 +15,7 @@
         android:layout_width="@dimen/image_width_leaderboard_item"
         android:layout_height="@dimen/image_height_leaderboard_item"
         android:contentDescription="@string/content_description_image_leaderboard_item"
-        android:src="@mipmap/ic_launcher"
+
         />
 
     <LinearLayout

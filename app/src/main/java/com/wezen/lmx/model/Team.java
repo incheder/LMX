@@ -6,6 +6,7 @@ package com.wezen.lmx.model;
 public class Team {
     private String name;
     private String imageUrl;
+    private String _id;
 
     public String getName() {
         return name;
@@ -21,5 +22,13 @@ public class Team {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }

@@ -1,4 +1,4 @@
-package com.wezen.lmx.leaderboard;
+package com.wezen.lmx.matches;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,25 +6,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.wezen.lmx.R;
-import com.wezen.lmx.Util;
-import com.wezen.lmx.model.Team;
+import com.wezen.lmx.model.Match;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * A fragment representing a list of Items.
@@ -32,28 +22,26 @@ import rx.schedulers.Schedulers;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class LeaderboardFragment extends Fragment {
-    private static final String TAG = LeaderboardFragment.class.getSimpleName();
+public class MatchesFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-    private List<Team> teamsList;
-    private MyLeaderboardRecyclerViewAdapter adapter;
+    private List<Match> matchList;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public LeaderboardFragment() {
+    public MatchesFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static LeaderboardFragment newInstance(int columnCount) {
-        LeaderboardFragment fragment = new LeaderboardFragment();
+    public static MatchesFragment newInstance(int columnCount) {
+        MatchesFragment fragment = new MatchesFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -63,17 +51,16 @@ public class LeaderboardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        teamsList = new ArrayList<>();
+
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
-        getTeams();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_leaderboard_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_matches_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -84,9 +71,8 @@ public class LeaderboardFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            adapter = new MyLeaderboardRecyclerViewAdapter(teamsList, mListener);
-            recyclerView.setAdapter(adapter);
-
+            matchList = new ArrayList<>();
+            recyclerView.setAdapter(new MatchesRecyclerViewAdapter(matchList, mListener));
         }
         return view;
     }
@@ -101,14 +87,6 @@ public class LeaderboardFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        teamsList.clear();
-        getLeaderBoard();
-
     }
 
     @Override
@@ -129,49 +107,7 @@ public class LeaderboardFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(Team item);
+        void onListFragmentInteraction(Match item);
     }
 
-    private void getLeaderBoard(){
-        String dummyurl = "https://quizup-questions.s3.amazonaws.com/topic-icons/david-bowie-2015-04-24T16:49:11.575Z";
-        for (int i = 0; i < 15; i++) {
-            Team team = new Team();
-            team.setImageUrl(dummyurl);
-            teamsList.add(team);
-        }
-        adapter.notifyDataSetChanged();
-
-    }
-
-    private void getTeams(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Util.BASE_URL)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        LeaderboardApiEndpoints leaderboardApiEndpoints = retrofit.create(LeaderboardApiEndpoints.class);
-        Observable<List<Team>> list = leaderboardApiEndpoints.getTeams();
-        list.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Team>>() {
-                        @Override
-                        public void onCompleted() {
-                            Log.d(TAG,"completed");
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.d(TAG,"error: "+ e);
-
-                        }
-
-                        @Override
-                        public void onNext(List<Team> teams) {
-                            Log.d(TAG,teams.toString());
-                        }
-        });
-
-
-    }
 }

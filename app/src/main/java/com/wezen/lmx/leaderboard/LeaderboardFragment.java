@@ -24,6 +24,7 @@ import retrofit.RxJavaCallAdapterFactory;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -67,7 +68,7 @@ public class LeaderboardFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
-        getTeams();
+
     }
 
     @Override
@@ -107,7 +108,8 @@ public class LeaderboardFragment extends Fragment {
     public void onResume() {
         super.onResume();
         teamsList.clear();
-        getLeaderBoard();
+        //getLeaderBoard();
+        getTeams();
 
     }
 
@@ -132,7 +134,7 @@ public class LeaderboardFragment extends Fragment {
         void onListFragmentInteraction(Team item);
     }
 
-    private void getLeaderBoard(){
+    /*private void getLeaderBoard(){
         String dummyurl = "https://quizup-questions.s3.amazonaws.com/topic-icons/david-bowie-2015-04-24T16:49:11.575Z";
         for (int i = 0; i < 15; i++) {
             Team team = new Team();
@@ -141,7 +143,7 @@ public class LeaderboardFragment extends Fragment {
         }
         adapter.notifyDataSetChanged();
 
-    }
+    }*/
 
     private void getTeams(){
         Retrofit retrofit = new Retrofit.Builder()
@@ -152,9 +154,10 @@ public class LeaderboardFragment extends Fragment {
 
         LeaderboardApiEndpoints leaderboardApiEndpoints = retrofit.create(LeaderboardApiEndpoints.class);
         Observable<List<Team>> list = leaderboardApiEndpoints.getTeams();
-        list.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Team>>() {
+        list
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Subscriber<List<Team>>() {
                         @Override
                         public void onCompleted() {
                             Log.d(TAG,"completed");
@@ -169,8 +172,12 @@ public class LeaderboardFragment extends Fragment {
                         @Override
                         public void onNext(List<Team> teams) {
                             Log.d(TAG,teams.toString());
+                            teamsList.clear();
+                            teamsList.addAll(teams);
+                            adapter.notifyDataSetChanged();
+
                         }
-        });
+                });
 
 
     }

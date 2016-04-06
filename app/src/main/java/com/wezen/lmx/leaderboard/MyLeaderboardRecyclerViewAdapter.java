@@ -53,9 +53,13 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
         holder.mItem = mValues.get(position);
         //holder.mIdView.setText(mValues.get(position).id);
         //holder.mContentView.setText(mValues.get(position).content);
+        holder.mTextViewName.setText(holder.mItem.getTeam());
+        holder.mTextViewPoints.setText(holder.mItem.getPoints());
+        holder.mTextViewPosition.setText(String.valueOf(position + 1 ));
+
 
         Picasso.with(holder.mImageView.getContext())
-                .load(holder.mItem.getImageUrl())
+                .load(holder.mItem.getFlag())
                 //.fit()
                 //.centerCrop()
                 .placeholder(R.mipmap.ic_launcher)

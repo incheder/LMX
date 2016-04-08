@@ -54,7 +54,7 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
         //holder.mIdView.setText(mValues.get(position).id);
         //holder.mContentView.setText(mValues.get(position).content);
         holder.mTextViewName.setText(holder.mItem.getTeam());
-        holder.mTextViewPoints.setText(holder.mItem.getPoints());
+        holder.mTextViewPoints.setText(holder.mItem.getPoints() + " pts");
         holder.mTextViewPosition.setText(String.valueOf(position + 1 ));
 
 
